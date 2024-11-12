@@ -18,7 +18,7 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public String loginPage() {
         return "LoginForm";  // Mengarah ke form login.html
     }
