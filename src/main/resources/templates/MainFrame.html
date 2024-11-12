@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage Menu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 80%;
+            max-width: 1200px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item .icon {
+            font-size: 50px;
+            margin-top: 30px;
+            color: #007BFF;
+        }
+
+        .menu-item .label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        .menu-item a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: 20px;
+        }
+
+        .menu-item a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .heading {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        /* Pop-up styles */
+        .popup {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 10;
+            width: 180px;
+            top: 0;
+            left: 0;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .popup ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .popup ul li {
+            padding: 5px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .popup ul li:hover {
+            background-color: #f0f0f0;
+        }
+
+        .popup ul li .popup-icon {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="heading">Selamat Datang di Menu Utama</div>
+
+    <div class="menu-container">
+        <!-- Menu 1 -->
+        <div class="menu-item" id="menuKaryawan">
+		    <a href="javascript:void(0)" onclick="window.location.href='EmployeeDataOutsource.html'">
+		        <div class="icon"><i class="fas fa-user"></i></div>
+		        <div class="label">Karyawan</div>
+		    </a>
+		</div>
+
+
+        <!-- Menu 2 -->
+        <div class="menu-item">
+            <a href="#submenu2">
+                <div class="icon"><i class="fas fa-cogs"></i></div>
+                <div class="label">Pengaturan</div>
+            </a>
+        </div>
+
+        <!-- Menu 3 -->
+        <div class="menu-item">
+            <a href="#submenu3">
+                <div class="icon"><i class="fas fa-chart-line"></i></div>
+                <div class="label">Laporan</div>
+            </a>
+        </div>
+
+        <!-- Menu 4 -->
+        <div class="menu-item">
+            <a href="#submenu4">
+                <div class="icon"><i class="fas fa-users"></i></div>
+                <div class="label">User Management</div>
+            </a>
+        </div>
+
+        <!-- Menu 5 -->
+        <div class="menu-item">
+            <a href="/login">
+                <div class="icon"><i class="fas fa-sign-out-alt"></i></div>
+                <div class="label">Logout</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        
+    </script>
+
+</body>
+</html>
