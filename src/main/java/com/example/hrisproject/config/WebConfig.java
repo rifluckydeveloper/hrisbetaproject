@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**") // Mengizinkan akses ke API
-                .allowedOrigins("http://localhost:3000") // Ganti dengan URL frontend jika berbeda
+                .allowedOrigins("http://localhost:8080") // Ganti dengan URL frontend jika berbeda
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 }
