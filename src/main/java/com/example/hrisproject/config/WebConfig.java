@@ -8,8 +8,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // Mengizinkan akses ke API
+        registry.addMapping("/**") // Mengizinkan akses ke API
                 .allowedOrigins("http://localhost:8080") // Ganti dengan URL frontend jika berbeda
-                .allowedMethods("GET", "POST", "PUT", "DELETE");
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+        		.allowedHeaders("*");  // Semua header
     }
 }
