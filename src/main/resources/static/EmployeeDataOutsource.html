@@ -239,8 +239,10 @@
     </div>
 
     <script>
-        const apiUrl = 'https://hrisbetaproject-ef8fa44c50e4.herokuapp.com/EmployeeDataOutsource.html';
+        // API URL yang benar
+        const apiUrl = 'https://hrisbetaproject-ef8fa44c50e4.herokuapp.com/api/karyawan-outsource';
         
+        // Format tanggal
         function formatDate(dateString) {
             const [year, month, day] = dateString.split('-');
             return `${day}/${month}/${year}`;
@@ -250,15 +252,15 @@
         function showForm(employee = null) {
             document.getElementById('form-container').classList.add('active');
             if (employee) {
-                document.getElementById('form-title').textContent = 'Edit Karyawan';
-                document.getElementById('employee-id').value = employee.no;
+                document.getElementById('form-title').innerText = 'Edit Karyawan';
+                document.getElementById('employee-id').value = employee.id;
                 document.getElementById('periode').value = employee.periode;
                 document.getElementById('sumber-kandidat').value = employee.sumberKandidat;
                 document.getElementById('tanggal-pengiriman').value = employee.tanggalPengiriman;
                 document.getElementById('nama-kandidat').value = employee.namaKandidat;
                 document.getElementById('jenis-kelamin').value = employee.jenisKelamin;
                 document.getElementById('tempat-lahir').value = employee.tempatLahir;
-                document.getElementById('tanggal-lahir').value = formatDate(employee.tanggalLahir);
+                document.getElementById('tanggal-lahir').value = employee.tanggalLahir;
                 document.getElementById('usia').value = employee.usia;
                 document.getElementById('pendidikan').value = employee.pendidikan;
                 document.getElementById('nama-sekolah').value = employee.namaSekolah;
@@ -276,43 +278,62 @@
                 document.getElementById('nama-ibu').value = employee.namaIbu;
                 document.getElementById('keterangan').value = employee.keterangan;
             } else {
-                document.getElementById('form-title').textContent = 'Tambah Karyawan';
                 document.getElementById('employee-form').reset();
+                document.getElementById('form-title').innerText = 'Tambah Karyawan';
             }
         }
-        
-        
 
-        // Menyembunyikan form
+        // Menutup form
         function closeForm() {
             document.getElementById('form-container').classList.remove('active');
         }
 
-        // Mengupdate data karyawan
-        function editEmployee(id) {
-            fetch(`${apiUrl}/${id}`)
+        // Mengambil data karyawan dari API dan menampilkannya di tabel
+        function loadEmployees() {
+            fetch(apiUrl)
                 .then(response => response.json())
-                .then(employee => {
-                    showForm(employee);
+                .then(data => {
+                    const tableBody = document.querySelector('#employee-table tbody');
+                    tableBody.innerHTML = '';
+                    data.forEach(employee => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${employee.id}</td>
+                            <td>${employee.periode}</td>
+                            <td>${employee.sumberKandidat}</td>
+                            <td>${employee.tanggalPengiriman}</td>
+                            <td>${employee.namaKandidat}</td>
+                            <td>${employee.jenisKelamin}</td>
+                            <td>${employee.tempatLahir}</td>
+                            <td>${formatDate(employee.tanggalLahir)}</td>
+                            <td>${employee.usia}</td>
+                            <td>${employee.pendidikan}</td>
+                            <td>${employee.namaSekolah}</td>
+                            <td>${employee.jurusan}</td>
+                            <td>${employee.ipk}</td>
+                            <td>${employee.nilai}</td>
+                            <td>${employee.tahunLulus}</td>
+                            <td>${employee.cabangDiTuju}</td>
+                            <td>${employee.skill}</td>
+                            <td>${employee.posisiYangDilamar}</td>
+                            <td>${employee.noHandphone}</td>
+                            <td>${employee.emailKandidat}</td>
+                            <td>${employee.noKTP}</td>
+                            <td>${employee.namaAyah}</td>
+                            <td>${employee.namaIbu}</td>
+                            <td>${employee.keterangan}</td>
+                            <td>
+                                <button onclick="showForm(${JSON.stringify(employee)})">Edit</button>
+                                <button onclick="deleteEmployee(${employee.id})">Delete</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => console.error('Error loading employees:', error));
         }
 
-        // Menghapus data karyawan
-        function deleteEmployee(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-                fetch(`${apiUrl}/${id}`, {
-                    method: 'DELETE',
-                })
-                .then(() => {
-                    alert('Data berhasil dihapus');
-                    loadEmployees(); // Reload daftar karyawan
-                })
-                .catch(error => console.error('Error:', error));
-            }
-        }
-
-        // Menambahkan atau mengupdate data karyawan
+        // Menambah atau mengupdate data karyawan
         document.getElementById('employee-form').addEventListener('submit', function(event) {
             event.preventDefault();
             const employee = {
@@ -340,12 +361,11 @@
                 namaIbu: document.getElementById('nama-ibu').value,
                 keterangan: document.getElementById('keterangan').value
             };
-            
-            const id = document.getElementById('employee-id').value;
 
+            const id = document.getElementById('employee-id').value;
             const method = id ? 'PUT' : 'POST';
             const url = id ? `${apiUrl}/${id}` : apiUrl;
-            
+
             fetch(url, {
                 method: method,
                 headers: {
@@ -354,60 +374,28 @@
                 body: JSON.stringify(employee)
             })
             .then(response => response.json())
-            .then(data => {
-                loadEmployees();  // Reload karyawan setelah simpan
-                closeForm(); // Tutup form
+            .then(() => {
+                loadEmployees();
+                closeForm();
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => console.error('Error saving employee:', error));
         });
 
-        // Memuat data karyawan
-        function loadEmployees() {
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    const table = document.getElementById('employee-table').getElementsByTagName('tbody')[0];
-                    table.innerHTML = '';  // Clear existing rows
-                    data.forEach(employee => {
-                        const row = table.insertRow();
-                        row.setAttribute('data-id', employee.no);
-                        row.innerHTML = `
-                            <td>${employee.no}</td>
-                            <td>${employee.periode}</td>
-                            <td>${employee.sumberKandidat}</td>
-                            <td>${employee.tanggalPengiriman}</td>
-                            <td>${employee.namaKandidat}</td>
-                            <td>${employee.jenisKelamin}</td>
-                            <td>${employee.tempatLahir}</td>
-                            <td>${employee.tanggalLahir}</td>
-                            <td>${employee.usia}</td>
-                            <td>${employee.pendidikan}</td>
-                            <td>${employee.namaSekolah}</td>
-                            <td>${employee.jurusan}</td>
-                            <td>${employee.ipk}</td>
-                            <td>${employee.nilai}</td>
-                            <td>${employee.tahunLulus}</td>
-                            <td>${employee.cabangDiTuju}</td>
-                            <td>${employee.skill}</td>
-                            <td>${employee.posisiYangDilamar}</td>
-                            <td>${employee.noHandphone}</td>
-                            <td>${employee.emailKandidat}</td>
-                            <td>${employee.noKTP}</td>
-                            <td>${employee.namaAyah}</td>
-                            <td>${employee.namaIbu}</td>
-                            <td>${employee.keterangan}</td>
-                            <td>
-                                <button onclick="editEmployee(${employee.no})">Edit</button>
-                                <button onclick="deleteEmployee(${employee.no})">Delete</button>
-                            </td>
-                        `;
-                    });
-                })
-                .catch(error => console.error('Error:', error));
+        // Menghapus data karyawan
+        function deleteEmployee(id) {
+            fetch(`${apiUrl}/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(() => {
+                loadEmployees();
+            })
+            .catch(error => console.error('Error deleting employee:', error));
         }
 
-        // Muat karyawan saat halaman pertama kali dimuat
-        window.onload = loadEmployees;
+        // Load data karyawan saat halaman pertama kali dimuat
+        loadEmployees();
     </script>
+
 </body>
 </html>
