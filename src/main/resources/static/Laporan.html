@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Excel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+        }
+        .excel-logo {
+            width: 100px;
+            height: 100px;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3b/Microsoft_Excel_Logo_2021.png'); /* Logo Excel */
+            background-size: cover;
+            margin-bottom: 20px;
+        }
+        .download-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #2e8b57;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .download-button:hover {
+            background-color: #228b22;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="excel-logo"></div>
+        <h2>Download File Excel Karyawan Outsource</h2>
+        <!-- Pastikan href mengarah ke endpoint yang benar -->
+        <a href="/api/karyawan-outsource/generate-excel" class="download-button" download>Download Excel</a>
+    </div>
+</body>
+</html>
